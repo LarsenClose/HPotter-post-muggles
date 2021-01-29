@@ -1,0 +1,28 @@
+dist: xenial
+language: python
+python:
+  - "3.8"
+
+addons:
+  sonarcloud:
+    organization: "$SONAR_ORGANIZATION"
+    token:
+      secure: "$SONAR_TOKEN"
+
+before_install:
+  - pip install -U pip
+
+install:
+  - pip install -r requirements.txt codecov
+
+script:
+  - pylint tea tests
+  - flake8 tea tests
+  - coverage erase
+  - coverage run --branch --source=Hpotter -m pytest
+  - coverage report -m
+  
+after_success:
+  - coverage xml -i
+  - codecov
+  - sonar-scanner -Dsonar.projectKey=${SONAR_PROJECT_KEY} -Dsonar.organization=${SONAR_ORGANIZATION}
