@@ -31,3 +31,5 @@ docker network create --internal my-net
 docker run -it --name httpd -v apache2:/usr/local/apache2 --network my-net httpd
 ----
 docker run -it --name try -v apache2:/usr/local/apache2 --network my-net httpd bash
+----
+sudo /home/lclose/.virtualenvs/venv1/bin/python3 -m src
