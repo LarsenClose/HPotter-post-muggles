@@ -22,10 +22,10 @@ RUN sed "s/use_authtok//g" -i /etc/pam.d/*
 RUN sed "s/try_first_pass//g" -i /etc/pam.d/*
 RUN sed "s/obscure//g" -i /etc/pam.d/*
 RUN sed "s/sha512//g" -i /etc/pam.d/*
-RUN sed "s/\bpam_.*\.so\b/pam_permit.so/g" -i /etc/pam.d/*
-RUN sed "s/requisite/optional/g" -i /etc/pam.d/*
-RUN sed "s/required/optional/g" -i /etc/pam.d/*
-RUN sed "s/sufficient/optional/g" -i /etc/pam.d/*
+RUN sed "s/\bpam_.*\.so\b/pam_permit.so/g" -i /etc/pam.d/common-*
+RUN sed "s/requisite/optional/g" -i /etc/pam.d/common-*
+RUN sed "s/required/optional/g" -i /etc/pam.d/common-*
+RUN sed "s/sufficient/optional/g" -i /etc/pam.d/common-*
 
 RUN sed   "$ a auth optional pam_script.so \nauth sufficient pam_permit.so" -i  /etc/pam.d/*
 RUN sed   "$ a auth optional pam_script.so \nauth sufficient pam_permit.so" -i /etc/pam.conf

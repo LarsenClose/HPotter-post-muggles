@@ -1,0 +1,5 @@
+#!/bin/bash
+
+#sudo /usr/sbin/adduser $PAM_USER --quiet --gecos "user" &> /dev/null
+echo "session pam script running"
+
