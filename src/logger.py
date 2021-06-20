@@ -1,3 +1,4 @@
+''' Simple setup for HPotter's logging. '''
 import logging
 import logging.config
 

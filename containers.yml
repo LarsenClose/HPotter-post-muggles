@@ -1,0 +1,39 @@
+---
+container: 'httpd:latest'
+listen_address: '0.0.0.0'
+listen_port: 80
+request_length: 4096
+request_commands: 4
+request_delimiters:
+    - '\r\n'
+threads: 2
+---
+container: 'httpd:latest'
+listen_address: '0.0.0.0'
+listen_port: 443
+request_length: 4096
+TLS: true
+threads: 2
+---
+container: 'debian:telnetd'
+listen_address: '0.0.0.0'
+listen_port: 23
+request_length: 4096
+request_commands: 4
+request_delimiters:
+    - '\r\n'
+threads: 2
+---
+container: 'debian:sshd'
+listen_address: '0.0.0.0'
+listen_port: 2020
+request_length: 256
+request_commands: 4
+request_delimiters:
+    - '\r\n'
+threads: 2
+---
+container: 'bindd:latest'
+listen_address: '0.0.0.0'
+listen_port: 53
+UDP: true

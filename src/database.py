@@ -1,44 +1,46 @@
-import os
+''' Start and stop a connection to a database, creating one if necessary.  '''
+
 import threading
 
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, scoped_session
 from sqlalchemy_utils import database_exists, create_database
 
-from src.tables import base
+from src.tables import Base
 from src.logger import logger
 
-class DB():
-    def __init__(self):
+class Database():
+    ''' Read from the config.yml file (if it exists) and set up the
+    database connection. '''
+    def __init__(self, config):
+        self.config = config
         self.lock_needed = False
         self.session = None
 
-    def get_DB_string(self):
-        # move to config.yml
-        DB=os.getenv('HPOTTER_DB', 'sqlite')
-        DB_USER=os.getenv('HPOTTER_DB_USER', 'root')
-        DB_PASSWORD=os.getenv('HPOTTER_DB_PASSWORD', '')
-        DB_HOST=os.getenv('HPOTTER_DB_HOST', '127.0.0.1')
-        DB_PORT=os.getenv('HPOTTER_DB_PORT', '')
-        DB_DB=os.getenv('HPOTTER_DB_DB', 'hpotter')
+    def _get_database_string(self):
+        database = self.config.get('database', 'sqlite')
+        database_name = self.config.get('database_name', 'hpotter.db')
 
-        if DB != 'sqlite':
-            if DB_PASSWORD:
-                DB_PASSWORD = ':' + DB_PASSWORD
+        if database != 'sqlite':
+            database_user = self.config.get('database_user', '')
+            database_password = self.config.get('database_password', '')
+            database_host = self.config.get('database_host', '')
+            database_port = self.config.get('database_port', '')
 
-            if DB_PORT:
-                DB_PORT = ':' + DB_PORT
+            # this is a little tricky as some are optional, but if they
+            # are present they must be prefixed.
+            database_password = ':' + database_password if database_password else ''
+            database_port = ':' + database_port if database_port else ''
+            database_name = '/' + database_name if database_name else ''
 
-            if DB_DB:
-                DB_DB = '/' + DB_DB
+            return '{0}://{1}{2}@{3}{4}{5}'.format(database, database_user,
+                database_password, database_host, database_port, database_name)
 
-            return '{0}://{1}{2}@{3}{4}{5}'.format(DB, DB_USER, DB_PASSWORD, \
-                DB_HOST, DB_PORT, DB_DB)
-        else:
-            self.lock_needed = True
-            return 'sqlite:///main.db'
+        self.lock_needed = True
+        return 'sqlite:///' + database_name
 
     def write(self, table):
+        ''' Write into the database, with locking if necessary. '''
         if self.lock_needed:
             db_lock = threading.Lock()
             with db_lock:
@@ -49,21 +51,21 @@ class DB():
             self.session.commit()
 
     def open(self):
-        engine = create_engine(self.get_DB_string())
+        ''' Open the connection. '''
+        engine = create_engine(self._get_database_string())
         # engine = create_engine(db, echo=True)
 
         # https://stackoverflow.com/questions/6506578/how-to-create-a-new-database-using-sqlalchemy
         if not database_exists(engine.url):
             create_database(engine.url)
 
-        base.metadata.create_all(engine)
+        Base.metadata.create_all(engine)
 
         self.session = scoped_session(sessionmaker(engine))()
 
     def close(self):
+        ''' Close the connection. '''
         logger.debug('Closing db')
         self.session.commit()
         self.session.close()
         logger.debug('Done closing db')
-
-database = DB()

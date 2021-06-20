@@ -1,0 +1,28 @@
+include "/etc/bind/zones.rfc1918";
+
+zone "." IN {
+    type hint;
+    file "named.root";
+};
+
+zone "localhost" IN {
+    type master;
+    file "zone.localhost";
+    allow-update { none; };
+};
+
+zone "0.0.127.in-addr.arpa" IN {
+    type master;
+    file "revp.127.0.0";
+    allow-update { none; };
+};
+
+zone "windbag.net" IN {
+    type master;
+    file "zone.net.windbag";
+};
+
+zone "239.201.208.in-addr.arpa" {
+    type master;
+    file "revp.208.201.239";
+};

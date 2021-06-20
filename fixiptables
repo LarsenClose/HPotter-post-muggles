@@ -1,5 +1,0 @@
-sudo iptables-legacy -P OUTPUT ACCEPT
-sudo iptables-legacy -P INPUT ACCEPT
-sudo iptables-legacy -F
-sudo iptables-legacy -X
-sudo iptables-legacy -L -n

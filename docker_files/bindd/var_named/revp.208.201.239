@@ -1,0 +1,33 @@
+;  revp.208.201.239
+
+; reverse pointers for 208.201.239 subnet
+
+;
+
+$ORIGIN 239.201.208.in-addr.arpa.
+
+$TTL 1D
+
+@     IN SOA  catmint.windbag.net. hostmaster.windbag.net. (
+
+              200405190  ; serial
+
+              28800      ; refresh (8 hours)
+
+              14400      ; retry (4 hours)
+
+              2419200    ; expire (4 weeks)
+
+              86400      ; minimum (1 day)
+
+              )
+
+; define the authoritative name server
+
+          NS      catmint.windbag.net.
+
+; our hosts, in numeric order
+
+45         PTR        catmint.windbag.net.
+
+46         PTR        henbane.windbag.net.

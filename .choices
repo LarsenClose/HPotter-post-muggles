@@ -1,15 +1,12 @@
-python3 -m hpotter
-python3 -m hpotter.jsonserver
-sudo -E python3 -m hpotter
-sudo -E python3 -m hpotter.jsonserver
+sudo python3 -m src
 ----
-sudo python3 -m hpotter --p httpd.yml
+sudo python3 -m src -p httpd.yml
 ----
 python3 -m unittest
 coverage run --source=hpotter -m unittest
 coverage report
 ----
-pylint hpotter
+pylint  ./src*
 find . -name '*.py' -exec radon cc '{}' ';'
 find . -name '*.py' -exec radon mi '{}' ';'
 ----
@@ -31,3 +28,13 @@ docker network create --internal my-net
 docker run -it --name httpd -v apache2:/usr/local/apache2 --network my-net httpd
 ----
 docker run -it --name try -v apache2:/usr/local/apache2 --network my-net httpd bash
+----
+docker build -t debian:telnetd . -f docker_files/telnetd/Dockerfile
+docker build --no-cache -t debian:telnetd . -f docker_files/telnetd/Dockerfile
+docker save -o debian:telnetd.tar debian:telnetd
+docker load -i debian:telnetd.tar
+docker run -p 23:23 debian:telnetd
+---
+docker build -t debian:sshd . -f docker_files/sshd/Dockerfile
+docker run --hostname administrative --rm -p 22:22 debian:sshd
+

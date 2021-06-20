@@ -1,0 +1,45 @@
+// zone.net.windbag
+
+// public dns zone for for windbag.net
+
+;
+
+$ORIGIN windbag.net.
+
+$TTL 1D
+
+; any time you make a change to the domain, bump the
+
+; "serial" setting below. the format is easy:
+
+; YYYYMMDDI, with the I being an iterator in case you
+
+; make more than one change during any one day
+
+@     IN SOA   catmint hostmaster (
+
+                        200405191 ; serial
+
+                        8H        ; refresh
+
+                        4H        ; retry
+
+                        4W        ; expire
+
+                        1D )      ; minimum
+
+; define the authoritative name server
+
+                NS      catmint
+
+; define domain functions with CNAMEs
+
+ftp             CNAME   henbane
+
+www             CNAME   henbane
+
+; our hostnames, in alphabetical order
+
+catmint             A       208.201.239.45
+
+henbane             A       208.201.239.46

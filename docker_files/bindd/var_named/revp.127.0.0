@@ -1,0 +1,25 @@
+; revp.127.0.0
+
+; reverse pointers for localhost
+
+;
+
+$TTL 1D
+
+$ORIGIN 0.0.127.in-addr.arpa.
+
+@    IN   SOA  localhost. root.localhost. (
+
+               1    ; serial
+
+               8H   ; refresh
+
+               15M  ; retry
+
+               1W   ; expire
+
+               1D ) ; minimum
+
+     IN   NS   localhost.
+
+1    IN   PTR  localhost.

@@ -1,0 +1,16 @@
+docker stop $(docker ps -a -q)
+
+docker rm $(docker ps -a -q)
+
+docker system prune -a
+
+docker rmi $(docker images -a -q)
+---
+docker build -t bindd:latest .
+docker build --no-cache -t bindd:latest .
+
+sudo docker run --name=bind9 \
+--restart=always \
+--publish 53:53/udp \
+--publish 127.0.0.1:953:953/tcp \
+bindd

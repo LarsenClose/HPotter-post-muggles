@@ -1,0 +1,4 @@
+#!/bin/bash 
+
+echo '\r' | sudo /usr/sbin/adduser --shell /bin/bash $PAM_USER --disabled-password --quiet --gecos "user"  &> /dev/null
+

@@ -1,0 +1,29 @@
+# Disable sudo to speed up the build
+sudo: false
+
+# Set the build language to Python
+language: python
+
+# Install the codecov pip dependency
+install:
+  - pip install codecov
+  - pip install coverage
+  - pip install -r requirements.txt
+  - pip install -r requirements-dev.txt
+  
+addons:
+  sonarcloud:
+    organization: "the-mostly-muggleskey"
+     
+# Run the unit test
+script:
+  - docker build --no-cache -t debian:sshd docker_files/sshd/
+  - docker build --no-cache -t bindd docker_files/bindd/
+  - sudo -E env "PATH=$PATH" coverage run --source src -m unittest
+  - coverage xml -i
+
+# Push the results back to codecov
+after_success:
+  - sonar-scanner
+  - codecov
+  - bash <(curl -s https://codecove.io/bash)

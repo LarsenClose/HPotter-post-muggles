@@ -1,2 +1,12 @@
-docker run --rm -p 22:22 debian:sshd
+docker stop $(docker ps -a -q)
+
+docker rm $(docker ps -a -q)
+
+docker system prune -a
+
+docker rmi $(docker images -a -q)
+---
 docker build -t debian:sshd .
+docker build --no-cache -t debian:sshd .
+
+docker run --hostname administrative --rm -p 22:22 debian:sshd

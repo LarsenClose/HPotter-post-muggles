@@ -1,18 +1,6 @@
----
-container: 'httpd:latest'
-listen_IP: '127.0.0.1'
-listen_port: 8080
-request_length: 4096
-theads: 2
-lines: 4
-line_end:
-    - '\n'
-    - '\r'
-socket_timeout: 10
----
-container: 'httpd:latest'
-listen_IP: '127.0.0.1'
-listen_port: 8081
-request_length: 4096
-TLS: true
-theads: 2
+database: 'sqlite'
+database_name: 'hpotter.db'
+database_user: ''
+database_password: ''
+database_host: ''
+database_port: ''
