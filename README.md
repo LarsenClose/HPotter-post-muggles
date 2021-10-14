@@ -38,3 +38,8 @@ A list of one or more of the following.
 
 ## HPotter features a dynamic set of firewall rules.
 * See "Firewall.md" for more information
+
+#### For the individual components see:
+* OG project - https://github.com/drsjb80/HPotter
+* data request api - https://github.com/drsjb80/LJordan
+* remixing with integration - https://github.com/The-Mostly-Muggles
